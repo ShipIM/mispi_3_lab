@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xml:lang="rus">
+
+<h:head>
+    <meta content="text/html; charset=utf-8"/>
+    <title>ThirdLab</title>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"/>
+
+    <style type="text/css">
+        body {
+            background-color: #00467F;
+            font-size: large;
+        }
+
+        table {
+            margin: auto;
+            width: 100%;
+        }
+
+        #frame {
+            width: 60%;
+            height: auto;
+            text-align: justify;
+        }
+
+        #header {
+            color: black;
+            font-size: medium;
+            font-family: serif;
+            text-align: center;
+        }
+
+        .label {
+            padding-left: 1.5%;
+        }
+
+        .input tr {
+            height: 35px;
+        }
+
+        .input td {
+            padding-right: 1%;
+        }
+
+        td p {
+            padding-left: 3%;
+            padding-right: 3%;
+        }
+
+        ul, ol {
+            padding-right: 3%;
+            padding-left: 7%;
+        }
+
+        ol ul {
+            padding-left: 5%;
+        }
+
+        li {
+            padding-top: 1%;
+        }
+
+        img {
+            display: block;
+            margin: 1% auto 1%;
+        }
+
+        .border {
+            border: thin solid black;
+        }
+
+        .content_table {
+            font-size: medium;
+            border-collapse: collapse;
+            width: 80%;
+            height: auto;
+            text-align: center;
+            margin-top: 0.5%;
+            margin-bottom: 0.5%;
+        }
+
+        body .ui-datatable thead th {
+            background-color: wheat;
+            color: black;
+            text-align: center;
+        }
+
+        .error {
+            color: red;
+            font-size: medium;
+            padding-left: 3%;
+            padding-right: 3%;
+            font-family: 'Times New Roman', Times, serif;
+            text-align: center;
+        }
+
+        tr, td, th {
+            border-radius: 12px;
+            background-color: wheat;
+        }
+
+        td object {
+            padding: 2% 2% 2% 2%;
+            width: 70%;
+            height: 70%;
+            display: block;
+            margin: auto;
+        }
+
+        .redirect {
+            display: block;
+            margin: auto;
+        }
+    </style>
+
+</h:head>
+
+<h:body>
+    <table id="frame">
+        <tr>
+            <th id="header"><b>ФИО: Шипунов Илья Михайлович. Группа: P32111 Вариант: 1159</b></th>
+        </tr>
+        <tr>
+            <td>
+                <p>Разработать приложение на базе JavaServer Faces Framework, которое осуществляет проверку попадания точки в заданную область на координатной плоскости.</p>
+                <p>Приложение должно включать в себя 2 facelets-шаблона - стартовую страницу и основную страницу приложения, а также набор управляемых бинов (managed beans), реализующих логику на стороне сервера.</p>
+                <p><b>Стартовая страница должна содержать следующие элементы:</b></p>
+                <ul>
+                    <li>
+                        <span>"Шапку", содержащую ФИО студента, номер группы и номер варианта.</span>
+                    </li>
+                    <li>
+                        <span>Интерактивные часы, показывающие текущие дату и время, обновляющиеся раз в 10 секунд.</span>
+                    </li>
+                    <li>
+                        <span>Ссылку, позволяющую перейти на основную страницу приложения.</span>
+                    </li>
+                </ul>
+                <p><b>Основная страница приложения должна содержать следующие элементы:</b></p>
+                <ul>
+                    <li>
+                        <span>Набор компонентов для задания координат точки и радиуса области в соответствии с вариантом задания. Может потребоваться использование дополнительных библиотек компонентов - ICEfaces (префикс "ace") и PrimeFaces (префикс "p"). Если компонент допускает ввод заведомо некорректных данных (таких, например, как буквы в координатах точки или отрицательный радиус), то приложение должно осуществлять их валидацию.</span>
+                    </li>
+                    <li>
+                        <span>Динамически обновляемую картинку, изображающую область на координатной плоскости в соответствии с номером варианта и точки, координаты которых были заданы пользователем. Клик по картинке должен инициировать сценарий, осуществляющий определение координат новой точки и отправку их на сервер для проверки её попадания в область. Цвет точек должен зависить от факта попадания / непопадания в область. Смена радиуса также должна инициировать перерисовку картинки.</span>
+                    </li>
+                    <li>
+                        <span>Таблицу со списком результатов предыдущих проверок.</span>
+                    </li>
+                    <li>
+                        <span>Ссылку, позволяющую вернуться на стартовую страницу.</span>
+                    </li>
+                </ul>
+                <p><b>Дополнительные требования к приложению:</b></p>
+                <ul>
+                    <li>
+                        <span>Все результаты проверки должны сохраняться в базе данных под управлением СУБД Oracle.</span>
+                    </li>
+                    <li>
+                        <span>Для доступа к БД необходимо использовать ORM Hibernate.</span>
+                    </li>
+                    <li>
+                        <span>Для управления списком результатов должен использоваться Application-scoped Managed Bean.</span>
+                    </li>
+                    <li>
+                        <span>Конфигурация управляемых бинов должна быть задана с помощью аннотаций.</span>
+                    </li>
+                    <li>
+                        <span>Правила навигации между страницами приложения должны быть заданы в отдельном конфигурационном файле.</span>
+                    </li>
+                </ul>
+                <p>
+                    <h:form>
+                        <h:commandButton styleClass="redirect" value="Вернуться на стартовую страницу"
+                                         action="#{navigationController.processStart()}"/>
+                    </h:form>
+                </p>
+            </td>
+        </tr>
+    </table>
+</h:body>
+</html>
