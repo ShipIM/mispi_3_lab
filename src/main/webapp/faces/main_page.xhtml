@@ -3,6 +3,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
       xml:lang="rus">
 
 <h:head>
@@ -180,6 +181,130 @@
                                          action="#{navigationController.processStart()}"/>
                     </h:form>
                 </p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h:form id="fields_form">
+                    <table class="input">
+
+                        <colgroup>
+                            <col width="20%"/>
+                        </colgroup>
+
+                        <tr>
+                            <td class="label"><span><b>Выберите значение R:</b></span></td>
+                            <td>
+                                <h:panelGroup id="rButtons">
+                                    <h:commandButton styleClass="r" value="1"
+                                                     action="#{radiusButtonsBean.changeCondition(1)}"
+                                                     disabled="#{radiusButtonsBean.getCondition(1)}">
+                                        <p:ajax update="rButtons"/>
+                                    </h:commandButton>
+                                    <h:commandButton styleClass="r" value="2"
+                                                     action="#{radiusButtonsBean.changeCondition(2)}"
+                                                     disabled="#{radiusButtonsBean.getCondition(2)}">
+                                        <p:ajax update="rButtons"/>
+                                    </h:commandButton>
+                                    <h:commandButton styleClass="r" value="3"
+                                                     action="#{radiusButtonsBean.changeCondition(3)}"
+                                                     disabled="#{radiusButtonsBean.getCondition(3)}">
+                                        <p:ajax update="rButtons"/>
+                                    </h:commandButton>
+                                    <h:commandButton styleClass="r" value="4"
+                                                     action="#{radiusButtonsBean.changeCondition(4)}"
+                                                     disabled="#{radiusButtonsBean.getCondition(4)}">
+                                        <p:ajax update="rButtons"/>
+                                    </h:commandButton>
+                                    <h:commandButton styleClass="r" value="5"
+                                                     action="#{radiusButtonsBean.changeCondition(5)}"
+                                                     disabled="#{radiusButtonsBean.getCondition(5)}">
+                                        <p:ajax update="rButtons"/>
+                                    </h:commandButton>
+                                    <h:inputHidden id="rValue" value="#{radiusButtonsBean.value}"
+                                                   required="true"
+                                                   requiredMessage="Необходимо выбрать один из вариантов."/>
+                                    <h:message for="rValue" styleClass="error"/>
+                                </h:panelGroup>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label"><span><b>Выберите значение X:</b></span></td>
+                            <td>
+                                <h:panelGroup id="xButtons">
+                                    <h:commandButton styleClass="x" value="-4"
+                                                     action="#{xCoordinateButtonsBean.changeCondition(-4)}"
+                                                     disabled="#{xCoordinateButtonsBean.getCondition(-4)}">
+                                        <p:ajax update="xButtons"/>
+                                    </h:commandButton>
+                                    <h:commandButton styleClass="x" value="-3"
+                                                     action="#{xCoordinateButtonsBean.changeCondition(-3)}"
+                                                     disabled="#{xCoordinateButtonsBean.getCondition(-3)}">
+                                        <p:ajax update="xButtons"/>
+                                    </h:commandButton>
+                                    <h:commandButton styleClass="x" value="-2"
+                                                     action="#{xCoordinateButtonsBean.changeCondition(-2)}"
+                                                     disabled="#{xCoordinateButtonsBean.getCondition(-2)}">
+                                        <p:ajax update="xButtons"/>
+                                    </h:commandButton>
+                                    <h:commandButton styleClass="x" value="-1"
+                                                     action="#{xCoordinateButtonsBean.changeCondition(-1)}"
+                                                     disabled="#{xCoordinateButtonsBean.getCondition(-1)}">
+                                        <p:ajax update="xButtons"/>
+                                    </h:commandButton>
+                                    <h:commandButton styleClass="x" value="0"
+                                                     action="#{xCoordinateButtonsBean.changeCondition(0)}"
+                                                     disabled="#{xCoordinateButtonsBean.getCondition(0)}">
+                                        <p:ajax update="xButtons"/>
+                                    </h:commandButton>
+                                    <h:commandButton styleClass="x" value="1"
+                                                     action="#{xCoordinateButtonsBean.changeCondition(1)}"
+                                                     disabled="#{xCoordinateButtonsBean.getCondition(1)}">
+                                        <p:ajax update="xButtons"/>
+                                    </h:commandButton>
+                                    <h:commandButton styleClass="x" value="2"
+                                                     action="#{xCoordinateButtonsBean.changeCondition(2)}"
+                                                     disabled="#{xCoordinateButtonsBean.getCondition(2)}">
+                                        <p:ajax update="xButtons"/>
+                                    </h:commandButton>
+                                    <h:commandButton styleClass="x" value="3"
+                                                     action="#{xCoordinateButtonsBean.changeCondition(3)}"
+                                                     disabled="#{xCoordinateButtonsBean.getCondition(3)}">
+                                        <p:ajax update="xButtons"/>
+                                    </h:commandButton>
+                                    <h:commandButton styleClass="x" value="4"
+                                                     action="#{xCoordinateButtonsBean.changeCondition(4)}"
+                                                     disabled="#{xCoordinateButtonsBean.getCondition(4)}">
+                                        <p:ajax update="xButtons"/>
+                                    </h:commandButton>
+                                    <h:inputHidden id="xField" value="#{xCoordinateButtonsBean.value}"
+                                                   required="true"
+                                                   requiredMessage="Необходимо выбрать один из вариантов."/>
+                                    <h:message for="xField" styleClass="error"/>
+                                </h:panelGroup>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label"><span><b>Введите значение Y:</b></span></td>
+                            <td>
+                                <p:inputText id="textField" maxlength="8" placeholder="-4 ... 4"
+                                             value="#{yInputTextBean.value}"
+                                             converter="yTextFieldFloatConverter">
+                                </p:inputText>
+                                <h:message id="textFieldMessage" for="textField" styleClass="error"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label" colspan="2">
+                                <h:commandButton value="Отправить" action="#{processBean.formRequest()}"
+                                                 styleClass="send" disabled="false" id="formSendButton">
+                                    <p:ajax process="fields_form"
+                                            update="fields_form"/>
+                                </h:commandButton>
+                            </td>
+                        </tr>
+                    </table>
+                </h:form>
             </td>
         </tr>
     </table>
