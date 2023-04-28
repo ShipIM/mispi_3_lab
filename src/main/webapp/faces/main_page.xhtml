@@ -299,12 +299,37 @@
                                 <h:commandButton value="Отправить" action="#{processBean.formRequest()}"
                                                  styleClass="send" disabled="false" id="formSendButton">
                                     <p:ajax process="fields_form"
-                                            update="fields_form"/>
+                                            update="fields_form content_table"/>
                                 </h:commandButton>
                             </td>
                         </tr>
                     </table>
                 </h:form>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p:dataTable value="#{hitService.all}" var="hit" id="content_table"
+                             tableStyleClass="content_table">
+                    <p:column headerText="R">
+                        <h:outputText value="#{hit.r}" styleClass="result_r"/>
+                    </p:column>
+                    <p:column headerText="X">
+                        <h:outputText value="#{hit.x}" styleClass="result_x"/>
+                    </p:column>
+                    <p:column headerText="Y">
+                        <h:outputText value="#{hit.y}" styleClass="result_y"/>
+                    </p:column>
+                    <p:column headerText="Результат">
+                        <h:outputText value="#{hit.result}" styleClass="result_verdict"/>
+                    </p:column>
+                    <p:column headerText="Время отправки запроса">
+                        <h:outputText value="#{hit.formattedRequestTime()}"/>
+                    </p:column>
+                    <p:column headerText="Время исполнения скрипта">
+                        <h:outputText value="#{hit.handleTime}"/>
+                    </p:column>
+                </p:dataTable>
             </td>
         </tr>
     </table>
