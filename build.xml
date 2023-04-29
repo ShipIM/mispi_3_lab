@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<project name="mispi_3_lab" default="compile">
+    <path id="classpath.source">
+        <fileset dir="libs" includes="**/*.jar"/>
+    </path>
+
+    <target name="compile">
+        <mkdir dir="build/classes"/>
+        <javac destdir="build/classes" includeantruntime="false">
+            <src path="src"/>
+            <classpath>
+                <path refid="classpath.source"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+</project>
