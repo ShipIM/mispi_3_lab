@@ -1,21 +1,21 @@
 <?xml version="1.0"?>
 <project name="mispi_3_lab" default="build">
+    <property file="build.properties"/>
+
     <path id="classpath.source">
-        <fileset dir="libs" includes="**/*.jar"/>
+        <fileset dir="${libs.dir}" includes="**/*.jar"/>
     </path>
 
     <target name="compile">
-        <mkdir dir="build/classes"/>
-        <javac destdir="build/classes" includeantruntime="false">
-            <src path="src"/>
-            <classpath>
-                <path refid="classpath.source"/>
-            </classpath>
+        <mkdir dir="${compiled.classes}"/>
+        <javac destdir="${compiled.classes}" includeantruntime="false">
+            <src path="${main}"/>
+            <classpath refid="classpath.source"/>
         </javac>
     </target>
 
     <target name="build" depends="compile">
-        <jar destfile="target/destination.jar" basedir="build/classes" compress="false" index="true">
+        <jar destfile="${destination.jar}" basedir="${compiled.classes}" compress="false" index="true">
             <manifest>
                 <attribute name="Built-By" value="Ilya and Roman"/>
             </manifest>
@@ -23,6 +23,9 @@
     </target>
 
     <target name="clean">
-        <delete dir="build"/>
+        <delete dir="${compiled}"/>
     </target>
+
+
+
 </project>
