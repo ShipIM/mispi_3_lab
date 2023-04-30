@@ -8,7 +8,13 @@
 
     <target name="compile">
         <mkdir dir="${compiled.classes}"/>
+        <mkdir dir="${compiled.tests}"/>
         <javac destdir="${compiled.classes}" includeantruntime="false">
+            <src path="${main}"/>
+            <classpath refid="classpath.source"/>
+        </javac>
+        <javac destdir="${compiled.tests}" includeantruntime="false">
+            <src path="${test}"/>
             <src path="${main}"/>
             <classpath refid="classpath.source"/>
         </javac>
@@ -25,7 +31,4 @@
     <target name="clean">
         <delete dir="${compiled}"/>
     </target>
-
-
-
 </project>
