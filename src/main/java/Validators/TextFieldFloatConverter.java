@@ -10,10 +10,6 @@ public abstract class TextFieldFloatConverter implements Converter {
     private float lowerBound;
     private float upperBound;
 
-    public TextFieldFloatConverter() {
-
-    }
-
     public TextFieldFloatConverter(float lowerBound, float upperBound) {
         this.lowerBound = lowerBound;
         this.upperBound = upperBound;

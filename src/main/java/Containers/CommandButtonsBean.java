@@ -6,17 +6,8 @@ public abstract class CommandButtonsBean {
     private Map<Float, Boolean> conditions;
     private Float value;
 
-    public CommandButtonsBean() {
-
-    }
-
     public CommandButtonsBean(Map<Float, Boolean> conditions) {
         this.conditions = conditions;
-    }
-
-    public CommandButtonsBean(Map<Float, Boolean> conditions, float value) {
-        this.conditions = conditions;
-        this.value = value;
     }
 
     public Float getValue() {

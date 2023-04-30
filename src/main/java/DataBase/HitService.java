@@ -13,10 +13,6 @@ public class HitService implements Serializable {
     @ManagedProperty(value = "#{dataBaseHitDAO}")
     private DAO<DataBaseHit, Integer> hit;
 
-    public HitService() {
-
-    }
-
     public HitService(DAO<DataBaseHit, Integer> hit) {
         this.hit = hit;
     }

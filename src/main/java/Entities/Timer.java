@@ -3,9 +3,9 @@ package Entities;
 import java.text.DecimalFormat;
 
 public class Timer {
-    private final Resultable resultable;
+    private final Resultable<Boolean> resultable;
 
-    public Timer(Resultable resultable) {
+    public Timer(Resultable<Boolean> resultable) {
         this.resultable = resultable;
     }
 
