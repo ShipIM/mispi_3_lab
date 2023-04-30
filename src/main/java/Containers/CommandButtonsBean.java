@@ -26,7 +26,8 @@ public abstract class CommandButtonsBean {
         this.conditions.entrySet().forEach((entry) -> entry.setValue(false));
         this.conditions.replace(key, false, true);
 
-        this.setValue(key);
+        if (conditions.containsKey(key))
+            this.setValue(key);
     }
 
     public void setDefault() {
