@@ -41,4 +41,18 @@ public class DataBaseHitDAO implements Serializable, DAO<DataBaseHit, Integer> {
             }
         }
     }
+
+    @Override
+    public void delete(DataBaseHit entity) {
+        try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
+            try {
+                session.remove(entity);
+                transaction.commit();
+            } catch (Exception e) {
+                transaction.rollback();
+                e.printStackTrace();
+            }
+        }
+    }
 }

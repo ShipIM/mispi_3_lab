@@ -69,4 +69,18 @@ public class DataBaseHit {
     public String formattedRequestTime() {
         return this.requestTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this.getClass() != o.getClass()) return false;
+
+        DataBaseHit second = (DataBaseHit) o;
+
+        return this.result == second.result
+                && this.r == second.r
+                && this.x == second.x
+                && this.y == second.y
+                && this.handleTime == second.handleTime
+                && this.requestTime.equals(second.requestTime);
+    }
 }
