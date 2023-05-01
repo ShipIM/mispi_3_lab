@@ -2,11 +2,17 @@
 <project name="mispi_3_lab" default="build">
     <property file="build.properties"/>
 
+    <taskdef resource="net/sf/antcontrib/antlib.xml">
+        <classpath>
+            <pathelement location="libs/ant-contrib-1.0b3.jar"/>
+        </classpath>
+    </taskdef>
+
     <path id="classpath.source">
         <fileset dir="${libs.dir}" includes="**/*.jar"/>
     </path>
 
-    <target name="compile">
+    <target name="compile" depends="clean">
         <mkdir dir="${compiled.classes}"/>
         <javac destdir="${compiled.classes}" includeantruntime="false">
             <src path="${main}"/>
@@ -26,6 +32,66 @@
         <delete dir="${compiled}"/>
     </target>
 
+    <target name="scp" depends="build" >
+        <input message="input your login"
+               addproperty="user"/>
+        <input message="input your password"
+               addproperty="password"/>
+        <scp file="${destination.jar}" todir="${user}@${scp.host}:${scp.path}/${user}"
+             trust="true" port="${scp.port}" password="${password}"/>
+    </target>
 
+    <target name="xml">
+        <xmlvalidate failonerror="yes" lenient="no" warn="yes">
+            <fileset dir="${main}" includes="**/*.xml"/>
+            <attribute name="http://xml.org/sax/features/validation" value="true"/>
+            <attribute name="http://apache.org/xml/features/validation/schema"  value="true"/>
+            <attribute name="http://xml.org/sax/features/namespaces" value="true"/>
+        </xmlvalidate>
+    </target>
 
+    <target name="alt">
+        <copy todir="${newsrc.dir}">
+            <fileset dir="${src.dir}"/>
+        </copy>
+
+        <replace dir="${newsrc.dir}" token="CommandButtonsBean" value="Command"/>
+        <move file="${newsrc.path.CommandButtonsBean}" tofile="${newsrc.path.change.containers}/Command.java"/>
+
+        <antcall target="build">
+            <param name="main" value="${newsrc.main}"/>
+        </antcall>
+        <delete dir="${newsrc.dir}"/>
+    </target>
+
+    <target name="history">
+        <trycatch>
+            <try>
+                <runtarget target="compile"/>
+            </try>
+            <catch>
+                <exec executable="cmd" outputproperty="size">
+                    <arg value="/c"/>
+                    <arg value="git rev-list --count HEAD"/>
+                </exec>
+                <if>
+                    <equals arg1="${size}" arg2="1"/>
+                    <then>
+                        <echo message="Cannot build all commits" />
+                    </then>
+                    <else>
+                        <exec executable="cmd" output="diff">
+                            <arg value="/c"/>
+                            <arg value="git diff HEAD~1"/>
+                        </exec>
+                        <exec executable="cmd">
+                            <arg value="/c"/>
+                            <arg value="git reset --hard HEAD~1"/>
+                        </exec>
+                        <runtarget target="history"/>
+                    </else>
+                </if>
+            </catch>
+        </trycatch>
+    </target>
 </project>
