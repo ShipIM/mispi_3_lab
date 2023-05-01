@@ -120,4 +120,10 @@
             </testclasses>
         </junitlauncher>
     </target>
+
+    <target name="native2ascii">
+        <mkdir dir="${ascii_locale}"/>
+        <native2ascii src="${native_locale}" dest="${ascii_locale}"
+                      includes="*.properties" ext=".properties"/>
+    </target>
 </project>
