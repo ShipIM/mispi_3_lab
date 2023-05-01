@@ -21,8 +21,10 @@
         </javac>
         <javac destdir="${compiled.tests}" includeantruntime="false">
             <src path="${test}"/>
-            <src path="${main}"/>
-            <classpath refid="classpath.source"/>
+            <classpath>
+                <pathelement location="${compiled.classes}"/>
+                <path refid="classpath.source"/>
+            </classpath>
         </javac>
     </target>
 
@@ -38,7 +40,7 @@
         <delete dir="${compiled}"/>
     </target>
 
-    <target name="scp" depends="build" >
+    <target name="scp" depends="build">
         <input message="input your login"
                addproperty="user"/>
         <input message="input your password"
@@ -51,7 +53,7 @@
         <xmlvalidate failonerror="yes" lenient="no" warn="yes">
             <fileset dir="${main}" includes="**/*.xml"/>
             <attribute name="http://xml.org/sax/features/validation" value="true"/>
-            <attribute name="http://apache.org/xml/features/validation/schema"  value="true"/>
+            <attribute name="http://apache.org/xml/features/validation/schema" value="true"/>
             <attribute name="http://xml.org/sax/features/namespaces" value="true"/>
         </xmlvalidate>
     </target>
@@ -83,7 +85,7 @@
                 <if>
                     <equals arg1="${size}" arg2="1"/>
                     <then>
-                        <echo message="Cannot build all commits" />
+                        <echo message="Cannot build all commits"/>
                     </then>
                     <else>
                         <exec executable="cmd" output="diff">
@@ -99,5 +101,23 @@
                 </if>
             </catch>
         </trycatch>
+    </target>
+
+    <target name="test" depends="build">
+        <mkdir dir="${report}"/>
+        <junitlauncher printsummary="true">
+            <classpath>
+                <pathelement location="${compiled.tests}"/>
+                <pathelement location="${compiled.classes}"/>
+                <path refid="classpath.source"/>
+            </classpath>
+            <testclasses outputdir="${report}">
+                <fileset dir="${compiled.tests}">
+                    <include name="**/*Test*.class"/>
+                    <exclude name="**/*$*.class"/>
+                </fileset>
+                <listener type="legacy-plain" sendSysOut="true"/>
+            </testclasses>
+        </junitlauncher>
     </target>
 </project>
