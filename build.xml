@@ -103,6 +103,36 @@
         </trycatch>
     </target>
 
+    <target name="team">
+        <exec executable="cmd" outputproperty="commitstart">
+            <arg value="/c"/>
+            <arg value="git log --pretty=format:%h -1"/>
+        </exec>
+        <for list=" ,~,~~,~~~" param="com">
+            <sequential>
+                <exec executable="cmd" outputproperty="commits">
+                    <arg value="/c"/>
+                    <arg value="git checkout -f HEAD@{com}"/>
+                </exec>
+                <antcall target="build">
+                    <param name="destination.jar" value="team/mispiLab3@{com}.jar"/>
+                </antcall>
+            </sequential>
+        </for>
+        <exec executable="cmd" outputproperty="commits">
+            <arg value="/c"/>
+            <arg value="git checkout -f ${commitstart}"/>
+        </exec>
+        <zip destfile="team/team.zip"
+             basedir="team"/>
+    </target>
+
+    <target name="native2ascii">
+        <mkdir dir="${ascii_locale}"/>
+        <native2ascii src="${native_locale}" dest="${ascii_locale}"
+                      includes="*.properties" ext=".properties"/>
+    </target>
+
     <target name="test" depends="build">
         <mkdir dir="${report}"/>
         <junitlauncher printsummary="true">
@@ -119,11 +149,5 @@
                 <listener type="legacy-plain" sendSysOut="true"/>
             </testclasses>
         </junitlauncher>
-    </target>
-
-    <target name="native2ascii">
-        <mkdir dir="${ascii_locale}"/>
-        <native2ascii src="${native_locale}" dest="${ascii_locale}"
-                      includes="*.properties" ext=".properties"/>
     </target>
 </project>
