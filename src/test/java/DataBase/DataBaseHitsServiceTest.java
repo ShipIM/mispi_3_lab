@@ -40,7 +40,9 @@ class DataBaseHitsServiceTest {
         List<Boolean> conditions = new ArrayList<>();
         hits.forEach(hit -> conditions.add(dao.getAll().contains(hit)));
 
-        Assertions.assertTrue(conditions.stream().allMatch(Boolean::booleanValue));
+        Assertions.assertTrue(conditions
+                .stream()
+                .allMatch(Boolean::booleanValue));
     }
 
     @Test
@@ -52,6 +54,8 @@ class DataBaseHitsServiceTest {
         List<Boolean> conditions = new ArrayList<>();
         hits.forEach(hit -> conditions.add(!dao.getAll().contains(hit)));
 
-        Assertions.assertTrue(conditions.stream().allMatch(Boolean::booleanValue));
+        Assertions.assertTrue(conditions
+                .stream()
+                .allMatch(Boolean::booleanValue));
     }
 }

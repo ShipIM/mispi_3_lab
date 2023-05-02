@@ -39,7 +39,10 @@ class CommandButtonsBeanTest {
 
         Assertions.assertAll(
                 () -> Assertions.assertNull(bean.getValue()),
-                () -> Assertions.assertTrue(bean.getConditions().values().stream().noneMatch(Boolean::booleanValue))
+                () -> Assertions.assertTrue(bean.getConditions()
+                        .values()
+                        .stream()
+                        .noneMatch(Boolean::booleanValue))
         );
     }
 
@@ -52,7 +55,10 @@ class CommandButtonsBeanTest {
 
         Assertions.assertAll(
                 () -> Assertions.assertNull(bean.getValue()),
-                () -> Assertions.assertTrue(bean.getConditions().values().stream().noneMatch(Boolean::booleanValue))
+                () -> Assertions.assertTrue(bean.getConditions()
+                        .values()
+                        .stream()
+                        .noneMatch(Boolean::booleanValue))
         );
     }
 
