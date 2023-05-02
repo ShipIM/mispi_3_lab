@@ -1,0 +1,154 @@
+<?xml version="1.0"?>
+<project name="mispi_3_lab" default="build">
+    <property file="build.properties"/>
+
+    <taskdef resource="net/sf/antcontrib/antlib.xml">
+        <classpath>
+            <pathelement location="libs/ant-contrib-1.0b3.jar"/>
+        </classpath>
+    </taskdef>
+
+    <path id="classpath.source">
+        <fileset dir="${libs.dir}" includes="**/*.jar"/>
+    </path>
+
+    <target name="compile" depends="clean">
+        <mkdir dir="${compiled.classes}"/>
+        <mkdir dir="${compiled.tests}"/>
+        <javac destdir="${compiled.classes}" includeantruntime="false">
+            <src path="${main}"/>
+            <classpath refid="classpath.source"/>
+        </javac>
+        <javac destdir="${compiled.tests}" includeantruntime="false">
+            <src path="${test}"/>
+            <classpath>
+                <pathelement location="${compiled.classes}"/>
+                <path refid="classpath.source"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="build" depends="compile">
+        <jar destfile="${destination.jar}" basedir="${compiled.classes}" compress="false" index="true">
+            <manifest>
+                <attribute name="Built-By" value="Ilya and Roman"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="clean">
+        <delete dir="${compiled}"/>
+    </target>
+
+    <target name="scp" depends="build">
+        <input message="input your login"
+               addproperty="user"/>
+        <input message="input your password"
+               addproperty="password"/>
+        <scp file="${destination.jar}" todir="${user}@${scp.host}:${scp.path}/${user}"
+             trust="true" port="${scp.port}" password="${password}"/>
+    </target>
+
+    <target name="xml">
+        <xmlvalidate failonerror="yes" lenient="no" warn="yes">
+            <fileset dir="${main}" includes="**/*.xml"/>
+            <attribute name="http://xml.org/sax/features/validation" value="true"/>
+            <attribute name="http://apache.org/xml/features/validation/schema" value="true"/>
+            <attribute name="http://xml.org/sax/features/namespaces" value="true"/>
+        </xmlvalidate>
+    </target>
+
+    <target name="alt">
+        <copy todir="${newsrc.dir}">
+            <fileset dir="${src.dir}"/>
+        </copy>
+
+        <replace dir="${newsrc.dir}" token="CommandButtonsBean" value="Command"/>
+        <move file="${newsrc.path.CommandButtonsBean}" tofile="${newsrc.path.change.containers}/Command.java"/>
+
+        <antcall target="build">
+            <param name="main" value="${newsrc.main}"/>
+            <param name="test" value="${newsrc.test}"/>
+        </antcall>
+        <delete dir="${newsrc.dir}"/>
+    </target>
+
+    <target name="history">
+        <trycatch>
+            <try>
+                <runtarget target="compile"/>
+            </try>
+            <catch>
+                <exec executable="cmd" outputproperty="size">
+                    <arg value="/c"/>
+                    <arg value="git rev-list --count HEAD"/>
+                </exec>
+                <if>
+                    <equals arg1="${size}" arg2="1"/>
+                    <then>
+                        <echo message="Cannot build all commits"/>
+                    </then>
+                    <else>
+                        <exec executable="cmd" output="diff">
+                            <arg value="/c"/>
+                            <arg value="git diff HEAD~1"/>
+                        </exec>
+                        <exec executable="cmd">
+                            <arg value="/c"/>
+                            <arg value="git reset --hard HEAD~1"/>
+                        </exec>
+                        <runtarget target="history"/>
+                    </else>
+                </if>
+            </catch>
+        </trycatch>
+    </target>
+
+    <target name="team">
+        <exec executable="cmd" outputproperty="commitstart">
+            <arg value="/c"/>
+            <arg value="git log --pretty=format:%h -1"/>
+        </exec>
+        <for list=" ,~,~~,~~~" param="com">
+            <sequential>
+                <exec executable="cmd" outputproperty="commits">
+                    <arg value="/c"/>
+                    <arg value="git checkout -f HEAD@{com}"/>
+                </exec>
+                <antcall target="build">
+                    <param name="destination.jar" value="team/mispiLab3@{com}.jar"/>
+                </antcall>
+            </sequential>
+        </for>
+        <exec executable="cmd" outputproperty="commits">
+            <arg value="/c"/>
+            <arg value="git checkout -f ${commitstart}"/>
+        </exec>
+        <zip destfile="team/team.zip"
+             basedir="team"/>
+    </target>
+
+    <target name="native2ascii">
+        <mkdir dir="${ascii_locale}"/>
+        <native2ascii src="${native_locale}" dest="${ascii_locale}"
+                      includes="*.properties" ext=".properties"/>
+    </target>
+
+    <target name="test" depends="build">
+        <mkdir dir="${report}"/>
+        <junitlauncher printsummary="true">
+            <classpath>
+                <pathelement location="${compiled.tests}"/>
+                <pathelement location="${compiled.classes}"/>
+                <path refid="classpath.source"/>
+            </classpath>
+            <testclasses outputdir="${report}">
+                <fileset dir="${compiled.tests}">
+                    <include name="**/*Test*.class"/>
+                    <exclude name="**/*$*.class"/>
+                </fileset>
+                <listener type="legacy-plain" sendSysOut="true"/>
+            </testclasses>
+        </junitlauncher>
+    </target>
+</project>
