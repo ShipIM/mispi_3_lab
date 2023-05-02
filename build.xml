@@ -68,6 +68,7 @@
 
         <antcall target="build">
             <param name="main" value="${newsrc.main}"/>
+            <param name="test" value="${newsrc.test}"/>
         </antcall>
         <delete dir="${newsrc.dir}"/>
     </target>
