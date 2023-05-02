@@ -31,7 +31,7 @@ public abstract class TextFieldFloatConverter implements Converter {
             return number;
         } catch (NumberFormatException e) {
             throw new ConverterException(
-                    new FacesMessage("Необходимо ввести число"));
+                    new FacesMessage("Необходимо ввести число."));
         }
     }
 
