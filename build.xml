@@ -118,14 +118,16 @@
                 <antcall target="build">
                     <param name="destination.jar" value="team/mispiLab3@{com}.jar"/>
                 </antcall>
+                <exec executable="cmd">
+                    <arg value="/c"/>
+                    <arg value="git checkout -f ${commitstart}"/>
+                </exec>
             </sequential>
         </for>
-        <exec executable="cmd" outputproperty="commits">
-            <arg value="/c"/>
-            <arg value="git checkout -f ${commitstart}"/>
-        </exec>
+
         <zip destfile="team/team.zip"
-             basedir="team"/>
+             basedir="team"
+             excludes="*.zip"/>
     </target>
 
     <target name="native2ascii">
